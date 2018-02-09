@@ -15,7 +15,6 @@ class Kele
       }
     }
 
-    # Retrieve Auth Token
     response = self.class.post('/sessions', options)
 
     puts response.parsed_response["message"] if response.parsed_response
@@ -23,12 +22,15 @@ class Kele
     @auth_token = response["auth_token"]
   end
 
-  # Request current user
   def get_me
     response = self.class.get('/users/me', headers: { "authorization" => @auth_token})
 
-    @current_user = JSON.parse(response.body)
+    JSON.parse(response.body)
+  end
 
-    puts @current_user["error"] if @current_user["error"]
+  def get_mentor_availability(id)
+    response = self.class.get("/mentors/#{id}/student_availability?id=#{id}", headers: { "authorization" => @auth_token})
+
+    JSON.parse(response.body)
   end
 end
