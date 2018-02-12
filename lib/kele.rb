@@ -36,4 +36,41 @@ class Kele
 
     JSON.parse(response.body)
   end
+
+  def get_messages(page = nil)
+    if page
+      response = self.class.get("/message_threads?page=#{page}", headers: { "authorization" => @auth_token })
+    else
+      response = self.class.get("/message_threads", headers: { "authorization" => @auth_token})
+    end
+
+    JSON.parse(response.body)
+  end
+
+  def create_message(sender, id, subject, body, token = nil)
+    if token
+      msg_data = {
+        body: {
+          'sender': sender,
+          'recipient_id': id,
+          'token': token,
+          'subject': subject,
+          'stripped-text': body
+
+        }
+      }
+    else
+      msg_data = {
+        body: {
+          'sender': sender,
+          'recipient_id': id,
+          'subject': subject,
+          'stripped-text': body
+        },
+        headers:{ "authorization" => @auth_token}
+      }
+    end
+
+    response = self.class.post('/messages', msg_data)
+  end
 end
