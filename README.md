@@ -52,3 +52,8 @@ kele_client.get_mentor_availability(mentor_id)
 # mentor_id can be found in the #get_me response. messag token is in #get_messages response => {"token": }
 kele_client.create_message('jane@example.com', 23422,'Message Subject', 'Body of the message', '70ba46bd-25d8-478z-9eaf-34eaa4e5e421')
 ```
+- To create a checkpoint submission
+```ruby
+# Pass in the checkpoint_id (#get_roadmap response), assignment branch name, assignment commit link, comment, and the enrollment_id (this is found in #get_me response in the current_enrollment hash)
+kele_client.create_submission(2142, "checkpointSubmission", "https://github.com/.../.../", "Testing 'create_submission'", 33442)
+```
