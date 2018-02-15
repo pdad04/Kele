@@ -28,7 +28,7 @@ class Kele
   def get_me
     response = self.class.get('/users/me', headers: { "authorization" => @auth_token})
 
-    JSON.parse(response.body)
+    @user = JSON.parse(response.body)
   end
 
   def get_mentor_availability(id)
@@ -74,14 +74,22 @@ class Kele
     response = self.class.post('/messages', msg_data)
   end
 
-  def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment, enrollment_id)
+  def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+
+    if @user == nil
+      user = get_me
+      enrollment_id = user["current_enrollment"]["id"]
+    else
+      enrollment_id = @user["current_enrollment"]["id"]
+    end
+
     options = {
       body: {
-        "assignment_branch": assignment_branch,
-        "assignment_commit_link": assignment_commit_link,
-        "checkpoint_id": checkpoint_id,
-        "comment": comment,
-        "enrollment_id": enrollment_id
+        assignment_branch: assignment_branch,
+        assignment_commit_link: assignment_commit_link,
+        checkpoint_id: checkpoint_id,
+        comment: comment,
+        enrollment_id: enrollment_id
       },
       headers: {"authorization" => @auth_token}
     }

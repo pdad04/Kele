@@ -54,6 +54,6 @@ kele_client.create_message('jane@example.com', 23422,'Message Subject', 'Body of
 ```
 - To create a checkpoint submission
 ```ruby
-# Pass in the checkpoint_id (#get_roadmap response), assignment branch name, assignment commit link, comment, and the enrollment_id (this is found in #get_me response in the current_enrollment hash)
+# Pass in the checkpoint_id (#get_roadmap response), assignment branch name, assignment commit link, and comment
 kele_client.create_submission(2142, "checkpointSubmission", "https://github.com/.../.../", "Testing 'create_submission'", 33442)
 ```
